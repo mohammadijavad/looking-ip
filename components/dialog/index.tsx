@@ -1,11 +1,7 @@
 import React from "react";
-import {
-  Dialog,
-  DialogContent,
-  Box,
-    DialogTitle
-} from "@mui/material";
+import { Dialog, DialogContent, Box, DialogTitle } from "@mui/material";
 import HeaderLogo from "@/components/header-logo";
+import { useStore } from "@/store/login";
 interface DialogProps {
   open: boolean;
   onClose: () => void;
@@ -14,7 +10,7 @@ interface DialogProps {
   content: React.ReactNode;
   fullWidth?: boolean;
   maxWidth?: "xs" | "sm" | "md" | "lg" | "xl";
-  isShowBack?:boolean;
+  isShowBack?: boolean;
 }
 
 const DialogContainer: React.FC<DialogProps> = ({
@@ -24,9 +20,10 @@ const DialogContainer: React.FC<DialogProps> = ({
   fullWidth = true,
   maxWidth = "sm",
   title,
-   subTitle
-
+  subTitle,
+  isShowBack,
 }) => {
+  const { step } = useStore();
   return (
     <Dialog
       open={open}
@@ -35,10 +32,33 @@ const DialogContainer: React.FC<DialogProps> = ({
       maxWidth={maxWidth}
     >
       <Box sx={{ py: "4rem", px: "2rem" }}>
-        <HeaderLogo/>
-        <DialogTitle sx={{p:'0' ,mb:'8px',textAlign:'center',fontFamily:'Vazir',fontWeight:'700',fontSize:'1rem'}}>{title}</DialogTitle>
-        <DialogTitle sx={{p:'0' ,mb:'3rem',textAlign:'center',fontFamily:'Vazir',fontWeight:'700',fontSize:'1rem',color:'#7E838F'}}>{subTitle}</DialogTitle>
-        <DialogContent dividers>{content}</DialogContent>
+        <HeaderLogo isShowActionButton={isShowBack} />
+        <DialogTitle
+          sx={{
+            p: "0",
+            mb: "8px",
+            textAlign: "center",
+            fontFamily: "Vazir",
+            fontWeight: "700",
+            fontSize: "1rem",
+          }}
+        >
+          {title}
+        </DialogTitle>
+        <DialogTitle
+          sx={{
+            p: "0",
+            mb: step === 1 ? "2rem" : "0.5rem",
+            textAlign: "center",
+            fontFamily: "Vazir",
+            fontWeight: "700",
+            fontSize: "1rem",
+            color: "#7E838F",
+          }}
+        >
+          {subTitle}
+        </DialogTitle>
+        <DialogContent>{content}</DialogContent>
       </Box>
     </Dialog>
   );

@@ -7,5 +7,14 @@
 }
 
 body{
-    font-family: 'Vazir', sans-serif
+    font-family: 'Vazir', sans-serif !important
+}
+
+.input-placeHolder::placeholder {
+    text-align: right;
+    font-family: 'Vazir'
+}
+.input-placeHolder:focus{
+    outline: none !important;
+    border: none;
 }

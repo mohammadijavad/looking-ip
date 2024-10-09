@@ -7,7 +7,7 @@ interface StoreState {
 }
 
 export const useStore = create<StoreState>((set) => ({
-  step: 0,
+  step: 1,
   phoneNumber: "",
   setStep: (step) => set({ step }),
   setPhoneNumber: (phoneNumber) => set({ phoneNumber }),

@@ -2,16 +2,17 @@ import React from "react";
 import { Box, IconButton } from "@mui/material";
 import Image from "next/image";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import logo from "@/public/assets/logo.png"; // Adjust path as needed
+import logo from "@/public/assets/logo.png";
+import {useStore} from "@/store/login"; // Adjust path as needed
 
 interface HeaderLogoProps {
-  onClose?: () => void;
   isShowActionButton?: boolean;
 }
 
 const HeaderLogo: React.FC<
   HeaderLogoProps
-> = ({ onClose, isShowActionButton }) => {
+> = ({ isShowActionButton }) => {
+  const {  setStep } = useStore();
   return (
     <Box
       display="flex"
@@ -22,7 +23,7 @@ const HeaderLogo: React.FC<
       {isShowActionButton && (
         <IconButton
           aria-label="close"
-          onClick={onClose}
+          onClick={()=>setStep(1)}
           sx={{
             position: "absolute",
             left: 8,

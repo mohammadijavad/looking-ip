@@ -5,9 +5,11 @@ import { useStore } from "@/store/login";
 import DialogContainer from "@/components/dialog";
 import PhoneNumberModal from "@/components/login/phone-number-modal";
 import SmsCodeVerificationModal from "@/components/login/sms-code-verification-modal";
+import { useState } from "react";
 
 export default function Container() {
-  const { step, setStep } = useStore();
+  const { step,phoneNumber } = useStore();
+  const [open, setOpen] = useState(false);
   return (
     <Box
       display="flex"
@@ -15,17 +17,24 @@ export default function Container() {
       alignItems="center"
       minHeight="100vh"
     >
-      <Button variant="contained" size="large" onClick={() => setStep(1)}>
+      <Button variant="contained" size="large" onClick={() => setOpen(true)}>
         Lets Get start ☑️
       </Button>
-      {step === 1 && (
+      {open && (
         <DialogContainer
-          maxWidth={'xs'}
-          open={step === 1}
-          onClose={() => setStep(0)}
-          content={step===1?<PhoneNumberModal/>:<SmsCodeVerificationModal/>}
-          title={'به پنل مدیریت تسک پادرو خوش آمدید'}
-          subTitle={'برای ورود، لطفا شماره موبایل خود را وارد کنید'}
+          maxWidth={"xs"}
+          isShowBack={step !== 1}
+          open={open}
+          onClose={() => setOpen(false)}
+          content={
+            step === 1 ? <PhoneNumberModal /> : <SmsCodeVerificationModal />
+          }
+          title={
+            step === 1
+              ? "به پنل مدیریت تسک پادرو خوش آمدید"
+              : "کد تایید را وارد کنید"
+          }
+          subTitle={step === 1? "برای ورود، لطفا شماره موبایل خود را وارد کنید":`کد تایید برای شماره ${phoneNumber} پیامک شد`}
         />
       )}
     </Box>
