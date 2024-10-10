@@ -6,6 +6,8 @@ import styled from "styled-components";
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
+    padding: 1rem;
+    font-size: 1rem;
 `;
 
 export default function Home() {

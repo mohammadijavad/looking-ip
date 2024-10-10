@@ -27,46 +27,44 @@ export default function IpResultContainer() {
           }}
       >
         <Grid container spacing={2}>
-          {/* First child: 8 columns on medium screens and above, full width on smaller screens */}
           <Grid item xs={12} md={8} sx={{ flex: '2' }}>
             <Box display="flex" flexWrap="wrap" gap="2rem">
               <div>
                 <Item>
                   <Title>Ip Address: </Title>
-                  <span>{ip.ip}</span>
+                  <span>{ip?.ip}</span>
                 </Item>
                 <Item>
                   <Title>Country: </Title>
-                  <span>{ip.location.country}</span>
+                  <span>{ip?.location?.country}</span>
                 </Item>
                 <Item>
                   <Title>Region: </Title>
-                  <span>{ip.location.region}</span>
+                  <span>{ip?.location?.region}</span>
                 </Item>
                 <Item>
                   <Title>Name: </Title>
-                  <span>{ip.as.name}</span>
+                  <span>{ip?.as?.name}</span>
                 </Item>
               </div>
               <div>
                 <Item>
                   <Title>Latitude: </Title>
-                  <span>{ip.location.lat}</span>
+                  <span>{ip?.location?.lat}</span>
                 </Item>
                 <Item>
                   <Title>Longitude: </Title>
-                  <span>{ip.location.lng}</span>
+                  <span>{ip?.location?.lng}</span>
                 </Item>
               </div>
             </Box>
           </Grid>
 
-          {/* Second child: 4 columns on medium screens and above, full width on smaller screens */}
           <Grid item xs={12} md={4} sx={{ flex: '1' }}>
             <LocationMap
                 latitude={ip.location.lat}
                 longitude={ip.location.lng}
-                name={ip.as.name}
+                name={ip?.as?.name||ip.ip}
             />
           </Grid>
         </Grid>

@@ -50,7 +50,7 @@ const InputCode: React.FC<InputCodeProps> = ({
   };
 
   return (
-    <Box sx={{ mb: "1rem", width: "90%" }}>
+    <Box sx={{ mb: "1rem", width: "100%" }}>
       <Typography variant="h6" textAlign="center">
         {label}
       </Typography>
@@ -76,7 +76,7 @@ const InputCode: React.FC<InputCodeProps> = ({
               variant="outlined"
               size="small"
               inputRef={(ref) => (inputs.current[idx] = ref)}
-              sx={{ width: "60px" }}
+              sx={{ width: "75px" }}
             />
           </Box>
         ))}

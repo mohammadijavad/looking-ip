@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
+import {useTheme} from "@mui/material/styles";
 
 interface CountdownTimerProps {
   expireTime: number;
@@ -12,8 +13,8 @@ const ExpireTimer: React.FC<CountdownTimerProps> = ({
   setIsFinished,
   isFinished,
 }) => {
+  const theme = useTheme()
   const [timeLeft, setTimeLeft] = useState(expireTime * 60);
-
   useEffect(() => {
     if (expireTime > 0&&!isFinished) {
       setTimeLeft(expireTime * 60);
@@ -46,10 +47,10 @@ const ExpireTimer: React.FC<CountdownTimerProps> = ({
     <Typography
       variant="p"
       sx={{
-        fontFamily: "Vazir",
         fontSize: "14px",
-        color: "blue",
+        color: theme.palette.primary.light,
         cursor: "pointer",
+        fontWeight:700
       }}
     >
       {!isFinished ? formatTime(timeLeft) : "ارسال مجدد کد"}

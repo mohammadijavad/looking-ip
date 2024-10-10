@@ -3,8 +3,17 @@ import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Icon } from "leaflet";
 
-const LocationMap = ({ latitude, longitude, name }) => {
+interface LocationMapProps {
+  latitude: number;
+  longitude: number;
+  name: string;
+}
 
+const LocationMap: React.FC<LocationMapProps> = ({
+  latitude,
+  longitude,
+  name,
+}) => {
   return (
     <div className="map-container">
       <MapContainer

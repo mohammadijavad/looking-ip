@@ -1,17 +1,18 @@
-import React from "react";
-import { TextField, Button, Box } from "@mui/material";
-import { useState } from "react";
-import { numberRegex, phoneRegex, errorValidation } from "@/components/utility";
+import React, { useState } from "react";
+import { TextField, Button, Box, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import Link from "next/link";
 import { useStore } from "@/store/login";
+import { numberRegex, phoneRegex, errorValidation } from "@/components/utility";
 
 export default function PhoneNumberModal() {
+  const theme = useTheme();
   const { setPhoneNumber, phoneNumber, setStep } = useStore();
   const [inputValue, setInputValue] = useState(phoneNumber);
   const [error, setError] = useState("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-
     if (numberRegex.test(value)) {
       setInputValue(value);
       setError("");
@@ -36,7 +37,7 @@ export default function PhoneNumberModal() {
         width: "100%",
         maxWidth: "400px",
         margin: "auto",
-        pt: "1rem",
+        paddingTop: "1rem",
         borderRadius: "16px",
       }}
     >
@@ -46,33 +47,49 @@ export default function PhoneNumberModal() {
         onChange={handleChange}
         error={!!error}
         helperText={error}
-        inputProps={{ className: "input-placeHolder" }}
+        inputProps={{ className: "input-placeHolder",  maxLength: 11 }}
         sx={{
           position: "relative",
           marginBottom: "0.2rem",
           "& .MuiFormHelperText-root": {
             position: "absolute",
-            bottom: "-18px", // Adjust positioning as needed
+            bottom: "-18px",
             right: "0",
             margin: "0",
-            fontFamily: "Vazir",
           },
         }}
       />
       <Button
         variant="contained"
-        color="primary"
-        onClick={handleSubmit} // Call handleSubmit on button click
+        onClick={handleSubmit}
         sx={{
           marginTop: "1rem",
-          p: "1rem",
-          fontFamily: "Vazir",
+          padding: "0.7rem",
           fontWeight: 700,
+          backgroundColor: theme.palette.primary.dark,
+          "&:hover": {
+            backgroundColor: theme.palette.primary.dark + "CC",
+          },
         }}
         fullWidth
       >
         ارسال کد‌ تایید
       </Button>
+      <Typography
+        variant="body2"
+        component="p"
+        sx={{ textAlign: "center", marginTop: "1rem" }}
+      >
+        حساب کاربری ندارد؟
+        <Link href="/" passHref>
+          <Typography
+            component="span"
+            sx={{ color: theme.palette.primary.main }}
+          >
+            ثبت نام
+          </Typography>
+        </Link>
+      </Typography>
     </Box>
   );
 }
