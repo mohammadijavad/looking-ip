@@ -18,3 +18,8 @@ body{
     outline: none !important;
     border: none;
 }
+
+.map-container {
+    height: 200px; /* You can adjust this value */
+    width: 100%;   /* Full width of the container */
+}

@@ -6,12 +6,14 @@ import React, { useState } from "react";
 import { errorValidation } from "@/components/utility";
 import dynamic from "next/dynamic";
 import ExpireTimer from "@/components/expire-timer";
+import {useRouter} from "next/navigation";
 
 const NotificationSnackbar = dynamic(
     () => import("@/components/notification-snackbar"),
 );
 
 export default function SmsCodeVerificationModal() {
+    const router=useRouter()
     const { setStep } = useStore();
     const [open, setOpen] = useState<boolean>(false);
     const [sentCode, setSentCode] = useState<string>('');
@@ -20,7 +22,7 @@ export default function SmsCodeVerificationModal() {
 
     function validateSmsCode(code:string): void {
         if (+code === 1111) {
-            // setDisableSubmit(false); push
+            router.replace('/ip')
         } else {
             setOpen(true);
         }

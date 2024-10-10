@@ -5,11 +5,18 @@ import { useStore } from "@/store/login";
 import DialogContainer from "@/components/dialog";
 import PhoneNumberModal from "@/components/login/phone-number-modal";
 import SmsCodeVerificationModal from "@/components/login/sms-code-verification-modal";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 
 export default function Container() {
-  const { step,phoneNumber } = useStore();
+  const { step,phoneNumber,setStep } = useStore();
   const [open, setOpen] = useState(false);
+  useEffect(()=>{
+    setOpen(true)
+  },[])
+
+  useEffect(()=>{
+    setStep(1)
+  },[open])
   return (
     <Box
       display="flex"
