@@ -67,6 +67,7 @@ const SearchComponent = ({setIp,loading}) => {
            const isIncludeIpV6=inputValue.match(ipv6Regexp)
            if (isIncludeIpv4||isIncludeIpV6){
                setIp(inputValue)
+               setInputValue('')
            }else {
                setError(errorValidation.ip)
            }

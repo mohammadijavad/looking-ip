@@ -1,30 +1,35 @@
 "use client";
 import SearchContainer from "@/components/search-ip/search-container";
-import styled, { keyframes, css } from "styled-components"; // import css helper
+import styled, { keyframes, css } from "styled-components";
 import { useEffect, useState } from "react";
 import { useStoreIps } from "@/store/ips";
 import IpResultContainer from "@/components/search-ip/ip-result-container";
 import { Box } from "@mui/material";
 import dynamic from "next/dynamic";
+import { throttle } from "@/components/helpers/throttle";
+
 const NotificationSnackbar = dynamic(
-    () => import("@/components/notification-snackbar"),
+  () => import("@/components/notification-snackbar"),
 );
+
 interface WrapperBoxProps {
   animate: boolean;
 }
+
 const moveUpAnimation = keyframes`
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-150px);
-  }
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-150px);
+    }
 `;
 
 const Container = styled.div`
   background: url("https://podro.com/wp-content/uploads/2023/11/background-pattern.svg")
-    center center;
+    center center fixed;
   background-size: cover;
+
   width: 100%;
   min-height: 100vh;
   position: relative;
@@ -43,36 +48,49 @@ const WrapperBox = styled(Box)<WrapperBoxProps>`
 `;
 
 export default function Page() {
+  const [lastReset, setLastReset] = useState(0);
+  const [callCount, setCallCount] = useState(0);
   const { ips, setIpList } = useStoreIps();
   const [ip, setIp] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   function getExistedIp() {
-    return ips.some((item) => item.ip === ip);
+    const isExistIp = ips.some((item) => item.ip === ip);
+    if (isExistIp) {
+      setError("در لیست IP ها وجود دارد.⚠️");
+    }
+    return isExistIp;
   }
 
   useEffect(() => {
-    const getIp = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          `https://geo.ipify.org/api/v2/country,city?apiKey=${process.env.NEXT_PUBLIC_API_KEY}&ipAddress=${ip}`,
-        );
-        if (!response.ok) {
-          throw new Error("متاسفانه خطایی رخ داده است");
+    const getIp = throttle(
+      async () => {
+        try {
+          setLoading(true);
+          const response = await fetch(
+            `https://geo.ipify.org/api/v2/country,city?apiKey=${process.env.NEXT_PUBLIC_API_KEY}&ipAddress=${ip}`,
+          );
+          if (!response.ok) {
+            throw new Error("متاسفانه خطایی رخ داده است");
+          }
+          const data = await response.json();
+          setIpList([...ips, data]);
+        } catch (error) {
+          setError("متاسفانه خطایی رخ داده است");
+        } finally {
+          setLoading(false);
+          setIp("");
         }
-        const data = await response.json();
-        setIpList([...ips, data]);
-      } catch (error) {
-        setError("متاسفانه خطایی رخ داده است");
-      } finally {
-        setLoading(false);
-        setIp("");
-      }
-    };
-
+      },
+      callCount,
+      setCallCount,
+      lastReset,
+      setLastReset,
+      60000,
+    );
     const isIpExisted = getExistedIp();
+
     ip && !isIpExisted && getIp();
   }, [ip]);
 

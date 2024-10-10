@@ -47,6 +47,7 @@ export default function PhoneNumberModal() {
         onChange={handleChange}
         error={!!error}
         helperText={error}
+        autoFocus
         inputProps={{ className: "input-placeHolder",  maxLength: 11 }}
         sx={{
           position: "relative",

@@ -66,6 +66,7 @@ const InputCode: React.FC<InputCodeProps> = ({
               type="text"
               inputMode="numeric"
               value={num}
+              autoFocus={idx===0}
               onChange={(e) => processInput(e, idx)}
               onKeyUp={(e) => onKeyUp(e, idx)}
               inputProps={{
