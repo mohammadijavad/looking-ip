@@ -31,7 +31,7 @@ const DialogContainer: React.FC<DialogProps> = ({
       fullWidth={fullWidth}
       maxWidth={maxWidth}
     >
-      <Box sx={{ py: "4rem", px: "2rem" }}>
+      <Box sx={{ py: "2.5rem", px: "1.5rem" }}>
         <HeaderLogo isShowActionButton={isShowBack} />
         <DialogTitle
           sx={{
@@ -58,7 +58,7 @@ const DialogContainer: React.FC<DialogProps> = ({
         >
           {subTitle}
         </DialogTitle>
-        <DialogContent>{content}</DialogContent>
+        <DialogContent sx={{p:'0'}}>{content}</DialogContent>
       </Box>
     </Dialog>
   );

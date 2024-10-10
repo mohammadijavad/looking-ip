@@ -24,11 +24,12 @@ const HeaderLogo: React.FC<
         <IconButton
           aria-label="close"
           onClick={()=>setStep(1)}
+
           sx={{
             position: "absolute",
             left: 8,
-            top: 8,
-            color: (theme) => theme.palette.black,
+            top: 35,
+            color:'#000'
           }}
         >
           <FaArrowLeftLong />

@@ -1,26 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 interface CountdownTimerProps {
-  minutes: number;
-  disabled: boolean;
-  setDisableSubmit: React.Dispatch<React.SetStateAction<boolean>>;
+  expireTime: number;
+  setIsFinished: React.Dispatch<React.SetStateAction<boolean>>;
+  isFinished: boolean;
 }
 
 const ExpireTimer: React.FC<CountdownTimerProps> = ({
-  minutes,
-  disabled,
-  setDisableSubmit,
+  expireTime,
+  setIsFinished,
+  isFinished,
 }) => {
-  const [timeLeft, setTimeLeft] = useState(minutes * 60);
+  const [timeLeft, setTimeLeft] = useState(expireTime * 60);
+
+  useEffect(() => {
+    if (expireTime > 0&&!isFinished) {
+      setTimeLeft(expireTime * 60);
+      setIsFinished(false)
+    }
+  }, [expireTime,isFinished]);
+
   useEffect(() => {
     if (timeLeft === 0) {
-      setDisableSubmit(false);
+      setIsFinished(true);
       return;
     }
 
     const timer = setInterval(() => {
-      setTimeLeft((prevTime) => prevTime - 1);
+      setTimeLeft(timeLeft-1);
     }, 1000);
 
     return () => clearInterval(timer);
@@ -29,35 +37,23 @@ const ExpireTimer: React.FC<CountdownTimerProps> = ({
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+    return `${minutes < 10 ? `0${minutes}` : minutes}:${
+      seconds < 10 ? `0${seconds}` : seconds
+    }`;
   };
-  function resetTime() {
-    setDisableSubmit(true);
-    setTimeLeft(minutes * 60);
-  }
+
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      disabled={disabled}
+    <Typography
+      variant="p"
       sx={{
-        marginTop: "1rem",
-        p: "1rem",
         fontFamily: "Vazir",
-        fontWeight: 700,
-        color: disabled ? "#616161" : "#fafafa",
+        fontSize: "14px",
+        color: "blue",
+        cursor: "pointer",
       }}
-      fullWidth
-      onClick={resetTime}
     >
-      {disabled ? (
-        formatTime(timeLeft)
-      ) : !disabled && !timeLeft ? (
-        <span>ارسال مجدد کد</span>
-      ) : (
-        <span>تایید</span>
-      )}
-    </Button>
+      {!isFinished ? formatTime(timeLeft) : "ارسال مجدد کد"}
+    </Typography>
   );
 };
 

@@ -7,6 +7,7 @@ interface InputCodeProps {
   loading: boolean;
   onComplete: (code: string) => void;
   setDisableSubmit: React.Dispatch<React.SetStateAction<boolean>>;
+  setSentCode: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const InputCode: React.FC<InputCodeProps> = ({
@@ -14,7 +15,7 @@ const InputCode: React.FC<InputCodeProps> = ({
   label,
   loading,
   onComplete,
-  setDisableSubmit,
+                                               setSentCode
 }) => {
   const [code, setCode] = useState<string[]>(Array(length).fill(""));
   const inputs = useRef<(HTMLInputElement | null)[]>([]);
@@ -32,11 +33,10 @@ const InputCode: React.FC<InputCodeProps> = ({
     if (slot < length - 1) {
       inputs.current[slot + 1]?.focus();
     }
-
     if (newCode.every((n) => n !== "")) {
-      onComplete(newCode.join(""));
-    } else {
-      setDisableSubmit(true);
+      const joinCodes=newCode.join("")
+      onComplete(joinCodes);
+      setSentCode(joinCodes)
     }
   };
 
@@ -50,7 +50,7 @@ const InputCode: React.FC<InputCodeProps> = ({
   };
 
   return (
-    <Box sx={{ mb: "1rem", width: "100%" }}>
+    <Box sx={{ mb: "1rem", width: "90%" }}>
       <Typography variant="h6" textAlign="center">
         {label}
       </Typography>
