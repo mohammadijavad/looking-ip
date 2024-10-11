@@ -8,7 +8,7 @@ import { useState, useMemo } from "react";
 
 export default function Container() {
   const { step, phoneNumber } = useStore();
-  const [open, setOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(true);
 
   const modalContent = useMemo(() => {
     const isPhoneNumberModal = step === 1;
@@ -35,16 +35,16 @@ export default function Container() {
       alignItems="center"
       height="100vh"
     >
-      <Button variant="contained" size="large" onClick={() => setOpen(true)}>
+      <Button variant="contained" size="large" onClick={() => setIsOpen(true)}>
         Lets Get start ☑️
       </Button>
 
-      {open && (
+      {isOpen && (
         <DialogContainer
           maxWidth={"xs"}
           isShowBack={step === 2}
-          open={open}
-          onClose={() => setOpen(false)}
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
           content={modalContent.component}
           title={modalContent.title}
           subTitle={modalContent.subTitle}
