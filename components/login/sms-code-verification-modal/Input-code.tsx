@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Box, TextField, Typography } from "@mui/material";
-import { notNumberRegexp } from "@/components/utility";
+import { notNumberRegexp } from "@/components/schemas";
 interface InputCodeProps {
   length: number;
   label: string;

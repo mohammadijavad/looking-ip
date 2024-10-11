@@ -1,12 +1,12 @@
 "use client";
-import SearchContainer from "@/components/search-ip/search-container";
+import SearchContainer from "@/components/search-ip/search-contaianer";
 import styled, { keyframes, css } from "styled-components";
 import { useEffect, useState } from "react";
 import { useStoreIps } from "@/store/ips";
 import IpResultContainer from "@/components/search-ip/ip-result-container";
 import { Box } from "@mui/material";
 import dynamic from "next/dynamic";
-import { throttle } from "@/components/helpers/throttle";
+import { searchThrottle } from "@/components/helpers/search-throttle";
 
 const NotificationSnackbar = dynamic(
   () => import("@/components/notification-snackbar"),
@@ -49,48 +49,47 @@ const WrapperBox = styled(Box)<WrapperBoxProps>`
 export default function Page() {
   const [lastReset, setLastReset] = useState(0);
   const [callCount, setCallCount] = useState(0);
-  const { ips, setIpList } = useStoreIps();
+  const { ipList, setIpList } = useStoreIps();
   const [ip, setIp] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  function getExistedIp() {
-    const isExistIp = ips.some((item) => item.ip === ip);
+  function getExistedIp(ipAddress: string) {
+    const isExistIp = ipList.some((item) => item.ip === ipAddress);
     if (isExistIp) {
       setError("در لیست IP ها وجود دارد.⚠️");
     }
     return isExistIp;
   }
 
-  useEffect(() => {
-    const getIp = throttle(
-      async () => {
-        try {
-          setLoading(true);
-          const response = await fetch(
-            `https://geo.ipify.org/api/v2/country,city?apiKey=${process.env.NEXT_PUBLIC_API_KEY}&ipAddress=${ip}`,
-          );
-          if (!response.ok) {
-            throw new Error("متاسفانه خطایی رخ داده است");
-          }
-          const data = await response.json();
-          setIpList([...ips, data]);
-        } catch (error) {
-          setError(error.message || "An unknown error occurred.");
-        } finally {
-          setLoading(false);
-          setIp("");
+  const getIp = searchThrottle(
+    async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `https://geo.ipify.org/api/v2/country,city?apiKey=${process.env.NEXT_PUBLIC_API_KEY}&ipAddress=${ip}`,
+        );
+        if (!response.ok) {
+          throw new Error("متاسفانه خطایی رخ داده است");
         }
-      },
-      callCount,
-      setCallCount,
-      lastReset,
-      setLastReset,
-      60000,
-    );
-    const isIpExisted = getExistedIp();
+        const data = await response.json();
+        setIpList([...ipList, data]);
+      } catch (error) {
+        setError(error.message || "An unknown error occurred.");
+      } finally {
+        setLoading(false);
+        setIp("");
+      }
+    },
+    callCount,
+    setCallCount,
+    lastReset,
+    setLastReset,
+    60000,
+  );
 
-    if (ip && !isIpExisted) {
+  useEffect(() => {
+    if (ip && !getExistedIp(ip)) {
       getIp();
     }
   }, [ip]);
@@ -99,7 +98,7 @@ export default function Page() {
     <>
       <Container>
         <WrapperBox
-          animate={loading && ips.length === 0}
+          animate={loading && ipList.length === 0}
           sx={{
             boxShadow: 3,
             borderRadius: "1rem",
@@ -115,7 +114,7 @@ export default function Page() {
           width="60%"
         >
           <SearchContainer setIp={setIp} loading={loading} />
-          {ips.length >= 1 && <IpResultContainer />}
+          {ipList.length >= 1 && <IpResultContainer />}
         </WrapperBox>
       </Container>
       {error && (

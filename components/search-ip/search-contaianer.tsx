@@ -7,62 +7,20 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { GoSearch } from "react-icons/go";
+import { ipv4Regexp, ipv6Regexp } from "@/components/schemas";
 import styled from "styled-components";
-import { errorValidation, ipv4Regexp, ipv6Regexp } from "@/components/utility";
-
-const SearchBox = styled(Box)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-`;
-
-const InputContainer = styled(Box)`
-  display: flex;
-  align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 5px 15px;
-  width: 600px;
-  position: relative;
-  overflow: hidden;
-`;
-
-const StyledInputBase = styled(InputBase)`
-  flex: 1;
-  padding-left: 10px;
-  text-align: right;
-`;
-
-const StyledSearchButton = styled(IconButton)`
-  padding: 10px;
-  border-radius: 50%;
-`;
-const StyledSearchButtonAction = styled(IconButton)`
-  color: white !important;
-  border-radius: 0 !important;
-  padding: 20px !important;
-  border-radius: 0 !important;
-  position: absolute !important;
-  background-color: #1043a6 !important;
-  left: 0 !important;
-`;
-const StyledTypography = styled(Typography)`
-  text-align: center;
-  font-family: "Vazir" !important;
-  direction: rtl;
-  color: "#7E838F";
-`;
-
+import { errorValidation } from "@/components/constants";
 const SearchComponent = ({ setIp, loading }) => {
   const [error, setError] = useState<string>("");
   const [inputValue, setInputValue] = useState<string>("");
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value.trim());
     if (inputValue) {
       setError("");
     }
   };
+
   const handleSearch = () => {
     if (!inputValue) {
       setError(errorValidation.emptyValue);
@@ -72,11 +30,13 @@ const SearchComponent = ({ setIp, loading }) => {
       if (isIncludeIpv4 || isIncludeIpV6) {
         setIp(inputValue);
         setInputValue("");
+        setError("");
       } else {
         setError(errorValidation.ip);
       }
     }
   };
+
   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSearch();
@@ -122,13 +82,14 @@ const SearchComponent = ({ setIp, loading }) => {
             onClick={() => !loading && handleSearch()}
           >
             {loading ? (
-              <CircularProgress size="30px" color="#fff" />
+              <CircularProgress size="30px" color="inherit" />
             ) : (
               <GoSearch />
             )}
           </StyledSearchButtonAction>
         </InputContainer>
       </SearchBox>
+
       {!!error && (
         <StyledTypography
           sx={{ color: "red", textAlign: "right", width: "100%" }}
@@ -140,4 +101,53 @@ const SearchComponent = ({ setIp, loading }) => {
   );
 };
 
-export default SearchComponent;
+export default React.memo(SearchComponent);
+
+const SearchBox = styled(Box)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+`;
+
+const InputContainer = styled(Box)`
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 5px 15px;
+  width: 600px;
+  position: relative;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+`;
+
+const StyledInputBase = styled(InputBase)`
+  flex: 1;
+  padding-left: 10px;
+  text-align: right;
+`;
+
+const StyledSearchButton = styled(IconButton)`
+  padding: 10px;
+  border-radius: 50%;
+`;
+
+const StyledSearchButtonAction = styled(IconButton)`
+  color: white !important;
+  border-radius: 0 !important;
+  padding: 20px !important;
+  position: absolute !important;
+  background-color: #1043a6 !important;
+  left: 0 !important;
+`;
+
+const StyledTypography = styled(Typography)`
+  text-align: center;
+  font-family: "Vazir" !important;
+  direction: rtl;
+  color: "#7E838F";
+`;

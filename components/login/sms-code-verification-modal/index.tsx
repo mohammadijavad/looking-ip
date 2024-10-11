@@ -5,7 +5,7 @@ import { useStore } from "@/store/login";
 import InputCode from "@/components/login/sms-code-verification-modal/Input-code";
 import ExpireTimer from "@/components/expire-timer";
 import dynamic from "next/dynamic";
-import { errorValidation } from "@/components/utility";
+import {errorValidation} from "@/components/constants";
 import { useTheme } from "@mui/material/styles";
 
 const NotificationSnackbar = dynamic(

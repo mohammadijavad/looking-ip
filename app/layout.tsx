@@ -2,7 +2,7 @@
 import React from 'react'
 import "./globals.css";
 import CssBaseline from "@mui/material/CssBaseline";
-import theme from "@/components/theme";
+import theme from "@/theme";
 import { ThemeProvider } from "@mui/material/styles";
 export default function RootLayout({
   children,

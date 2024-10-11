@@ -3,7 +3,8 @@ import { TextField, Button, Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Link from "next/link";
 import { useStore } from "@/store/login";
-import { numberRegex, phoneRegex, errorValidation } from "@/components/utility";
+import { numberRegex, phoneRegex } from "@/components/schemas";
+import {errorValidation} from "@/components/constants";
 
 export default function PhoneNumberModal() {
   const theme = useTheme();

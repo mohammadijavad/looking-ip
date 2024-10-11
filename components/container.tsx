@@ -4,16 +4,11 @@ import { useStore } from "@/store/login";
 import DialogContainer from "@/components/dialog";
 import PhoneNumberModal from "@/components/login/phone-number-modal";
 import SmsCodeVerificationModal from "@/components/login/sms-code-verification-modal";
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 
 export default function Container() {
-  const { step, phoneNumber, setStep } = useStore();
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    setOpen(true);
-    setStep(1);
-  }, []);
+  const { step, phoneNumber } = useStore();
+  const [open, setOpen] = useState(true);
 
   const modalContent = useMemo(() => {
     const isPhoneNumberModal = step === 1;
@@ -31,6 +26,7 @@ export default function Container() {
         : `کد تایید برای شماره ${phoneNumber} پیامک شد`,
     };
   }, [step, phoneNumber]);
+
 
   return (
     <Box
