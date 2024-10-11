@@ -6,7 +6,6 @@ interface InputCodeProps {
   label: string;
   loading: boolean;
   onComplete: (code: string) => void;
-  setDisableSubmit: React.Dispatch<React.SetStateAction<boolean>>;
   setSentCode: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -15,7 +14,7 @@ const InputCode: React.FC<InputCodeProps> = ({
   label,
   loading,
   onComplete,
-                                               setSentCode
+  setSentCode
 }) => {
   const [code, setCode] = useState<string[]>(Array(length).fill(""));
   const inputs = useRef<(HTMLInputElement | null)[]>([]);

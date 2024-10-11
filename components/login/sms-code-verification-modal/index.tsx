@@ -22,15 +22,14 @@ export default function SmsCodeVerificationModal() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [sentCode, setSentCode] = useState("");
   const [isFinished, setIsFinished] = useState(false);
-  const [expireTime, setExpireTime] = useState(2);
+  const [expireTime, setExpireTime] = useState(1);
 
   const validateSmsCode = (code) => {
     if (+code === 1111) {
       setLoading(true);
       setTimeout(()=>{
-
       router.replace("/ip");
-      },2000)
+      },1000)
     } else {
       setOpenSnackbar(true);
     }
@@ -45,7 +44,7 @@ export default function SmsCodeVerificationModal() {
   };
 
   const resetTimer = () => {
-    setExpireTime(2);
+    setExpireTime(1);
     setIsFinished(false);
   };
 
@@ -76,8 +75,10 @@ export default function SmsCodeVerificationModal() {
         <InputCode
           label=""
           length={4}
+          loading={loading}
           onComplete={validateSmsCode}
           setSentCode={setSentCode}
+
         />
 
         <Box
