@@ -36,4 +36,5 @@ This React project, using the Next.js App Router, includes two main pages: a log
 
 ## for API key check this url give api key and pass it to .env.local
 https://geo.ipify.org/docs
-
+install npm i or yarn 
+npm run dev or yarn dev 👍⭐
