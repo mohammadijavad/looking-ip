@@ -12,7 +12,7 @@ body{
 
 .input-placeHolder::placeholder {
     text-align: right;
-    font-family: 'Vazir'
+    font-family: 'Vazir',sans-serif
 }
 .input-placeHolder:focus{
     outline: none !important;
@@ -20,6 +20,6 @@ body{
 }
 
 .map-container {
-    height: 200px; /* You can adjust this value */
-    width: 100%;   /* Full width of the container */
+    height: 200px;
+    width: 100%;
 }
