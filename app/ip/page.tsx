@@ -29,7 +29,6 @@ const Container = styled.div`
   background: url("https://podro.com/wp-content/uploads/2023/11/background-pattern.svg")
     center center fixed;
   background-size: cover;
-
   width: 100%;
   min-height: 100vh;
   position: relative;
@@ -77,7 +76,7 @@ export default function Page() {
           const data = await response.json();
           setIpList([...ips, data]);
         } catch (error) {
-          setError("متاسفانه خطایی رخ داده است");
+          setError(error.message || "An unknown error occurred.");
         } finally {
           setLoading(false);
           setIp("");
@@ -91,7 +90,9 @@ export default function Page() {
     );
     const isIpExisted = getExistedIp();
 
-    ip && !isIpExisted && getIp();
+    if (ip && !isIpExisted) {
+      getIp();
+    }
   }, [ip]);
 
   return (

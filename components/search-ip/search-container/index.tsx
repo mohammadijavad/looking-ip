@@ -1,8 +1,14 @@
-import React, {ChangeEvent, useState,KeyboardEvent} from "react";
-import {Box, InputBase, Typography, IconButton, CircularProgress} from "@mui/material";
+import React, { ChangeEvent, useState, KeyboardEvent } from "react";
+import {
+  Box,
+  InputBase,
+  Typography,
+  IconButton,
+  CircularProgress,
+} from "@mui/material";
 import { GoSearch } from "react-icons/go";
 import styled from "styled-components";
-import {errorValidation, ipv4Regexp, ipv6Regexp} from "@/components/utility";
+import { errorValidation, ipv4Regexp, ipv6Regexp } from "@/components/utility";
 
 const SearchBox = styled(Box)`
   display: flex;
@@ -29,7 +35,6 @@ const StyledInputBase = styled(InputBase)`
 `;
 
 const StyledSearchButton = styled(IconButton)`
-
   padding: 10px;
   border-radius: 50%;
 `;
@@ -49,40 +54,37 @@ const StyledTypography = styled(Typography)`
   color: "#7E838F";
 `;
 
-const SearchComponent = ({setIp,loading}) => {
-
-    const [error,setError]=useState<string>('')
-    const [inputValue,setInputValue]=useState<string>('')
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value.trim());
-        if (inputValue){
-            setError('')
-        }
-    };
-    const handleSearch = () => {
-       if (!inputValue){
-           setError(errorValidation.emptyValue)
-       }else {
-           const isIncludeIpv4=inputValue.match(ipv4Regexp)
-           const isIncludeIpV6=inputValue.match(ipv6Regexp)
-           if (isIncludeIpv4||isIncludeIpV6){
-               setIp(inputValue)
-               setInputValue('')
-           }else {
-               setError(errorValidation.ip)
-           }
-
-       }
-    };
-    const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            handleSearch();
-        }
+const SearchComponent = ({ setIp, loading }) => {
+  const [error, setError] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>("");
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value.trim());
+    if (inputValue) {
+      setError("");
     }
+  };
+  const handleSearch = () => {
+    if (!inputValue) {
+      setError(errorValidation.emptyValue);
+    } else {
+      const isIncludeIpv4 = inputValue.match(ipv4Regexp);
+      const isIncludeIpV6 = inputValue.match(ipv6Regexp);
+      if (isIncludeIpv4 || isIncludeIpV6) {
+        setIp(inputValue);
+        setInputValue("");
+      } else {
+        setError(errorValidation.ip);
+      }
+    }
+  };
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   return (
-    <
-    >
+    <>
       <StyledTypography variant="h5">
         آی پی مد نظر خود را پیدا کنید
       </StyledTypography>
@@ -104,7 +106,7 @@ const SearchComponent = ({setIp,loading}) => {
             inputProps={{
               className: "input-placeHolder",
               style: { textAlign: "right" },
-                onChange:handleInputChange
+              onChange: handleInputChange,
             }}
             onKeyPress={handleKeyPress}
             error={!!error}
@@ -115,14 +117,25 @@ const SearchComponent = ({setIp,loading}) => {
             <GoSearch />
           </StyledSearchButton>
 
-          <StyledSearchButtonAction type="submit" onClick={()=>!loading&&handleSearch()}>
-
-              {loading?<CircularProgress size="30px" color='#fff' />:<GoSearch/>}
+          <StyledSearchButtonAction
+            type="submit"
+            onClick={() => !loading && handleSearch()}
+          >
+            {loading ? (
+              <CircularProgress size="30px" color="#fff" />
+            ) : (
+              <GoSearch />
+            )}
           </StyledSearchButtonAction>
         </InputContainer>
       </SearchBox>
-        {!!error&&
-            <StyledTypography sx={{color:'red',textAlign:'right',width:'100%'}}>{error}</StyledTypography>}
+      {!!error && (
+        <StyledTypography
+          sx={{ color: "red", textAlign: "right", width: "100%" }}
+        >
+          {error}
+        </StyledTypography>
+      )}
     </>
   );
 };
