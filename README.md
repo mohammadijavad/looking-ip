@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Looking IP
 
-First, run the development server:
+This React project, using the Next.js App Router, includes two main pages: a login page and an IP search page.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Login Page
+- The user is required to enter their phone number, which is validated before submission.
+- After submitting the phone number, the user is redirected to the "Enter Code" page.
+- The correct password/code for the demonstration is 1111. If the user enters an incorrect code, an error message will be displayed.
+- Upon successful login, the user is redirected to the IP search page.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## IP Search Page
+- Users can search for IP addresses on this page.
+- To prevent overuse, the search functionality is throttled, allowing a maximum of 5 requests per minute.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features
 
-## Learn More
+- Validation schema 
+- Search IP
+- Show location
+- Request limit
+- State Management
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Packages
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [Leaflet](https://www.npmjs.com/package/leaflet)
+- [Nextjs](https://nextjs.org/)
+- [Reactjs](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [MUI](https://mui.com/)
+- [Styled-component](https://www.styled-components.com/)
+- [Zustand](https://zustand-demo.pmnd.rs/)
+- [React-icons](https://www.npmjs.com/package/react-icons)
 
-## Deploy on Vercel
+## for API key check this url give api key and pass it to .env.local
+https://geo.ipify.org/docs
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
