@@ -11,16 +11,14 @@ export function searchThrottle<T extends any[]>(
   return (...args: T) => {
     const now = Date.now();
 
-    // Reset the counter if the limit time has passed
     if (now - lastReset >= limitInMs) {
       setCallCount(0);
       setLastReset(now);
     }
 
-    // Check the current call count and decide whether to execute the function
     if (callCount < 5) {
-      func(...args); // Execute the function
-      setCallCount((prevCount) => prevCount + 1); // Update the call count
+      func(...args);
+      setCallCount((prevCount) => prevCount + 1);
     }
   };
 }
